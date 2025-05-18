@@ -63,67 +63,67 @@ mode: restart
 max_exceeded: silent
 trigger:
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: "on"
     id: "on"
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: "off"
     id: "off"
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: arrow_right_click
     id: right
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: arrow_left_click
     id: left
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: brightness_move_up
     id: on_long
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: brightness_move_down
     id: off_long
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: arrow_right_hold
     id: right_long
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: arrow_left_hold
     id: left_long
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: arrow_right_release
     id: right_stop
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: arrow_left_release
     id: left_stop
   - platform: device
-    device_id: !input mqtt_device
+    device_id: !input remote
     domain: mqtt
     type: action
     subtype: brightness_stop
