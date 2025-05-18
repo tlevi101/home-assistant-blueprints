@@ -1,0 +1,164 @@
+blueprint:
+  name: Z2M IKEA styrbar 4 button custom actions
+  description: Create actions for each button, for short and long press
+  domain: automation
+  input:
+    remote:
+      name: Styrbar-Remote Action Device
+      selector:
+        device:
+          filter:
+            - integration: mqtt
+              manufacturer: IKEA
+              model: STYRBAR remote control
+    action_on:
+      name: On Button
+      description: Action to run when SHORT press
+      default: []
+      selector:
+        action: {}
+    action_off:
+      name: Off Button
+      description: Action to run when SHORT press
+      default: []
+      selector:
+        action: {}
+    action_on_long:
+      name: Brightness up Button
+      description: Action to run when Long press
+      default: []
+      selector:
+        action: {}
+    action_off_long:
+      name: Brightness down Button
+      description: Action to run when Long press
+      default: []
+      selector:
+        action: {}
+    action_right:
+      name: Right Button click
+      description: Action to run when short press
+      default: []
+      selector:
+        action: {}
+    action_right_long:
+      name: Right Hold Button
+      description: Action to run when Long press
+      default: []
+      selector:
+        action: {}
+    action_left:
+      name: Left Button
+      description: Action to run when Short press
+      default: []
+      selector:
+        action: {}
+    action_left_long:
+      name: Left Hold Button
+      description: Action to run when Long press
+      default: []
+      selector:
+        action: {}
+mode: restart
+max_exceeded: silent
+trigger:
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: "on"
+    id: "on"
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: "off"
+    id: "off"
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: arrow_right_click
+    id: right
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: arrow_left_click
+    id: left
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: brightness_move_up
+    id: on_long
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: brightness_move_down
+    id: off_long
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: arrow_right_hold
+    id: right_long
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: arrow_left_hold
+    id: left_long
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: arrow_right_release
+    id: right_stop
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: arrow_left_release
+    id: left_stop
+  - platform: device
+    device_id: !input mqtt_device
+    domain: mqtt
+    type: action
+    subtype: brightness_stop
+    id: stop
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: "on"
+        sequence: !input action_on
+      - conditions:
+          - condition: trigger
+            id: "off"
+        sequence: !input action_off
+      - conditions:
+          - condition: trigger
+            id: on_long
+        sequence: !input action_on_long
+      - conditions:
+          - condition: trigger
+            id: off_long
+        sequence: !input action_off_long
+      - conditions:
+          - condition: trigger
+            id: right
+        sequence: !input action_right
+      - conditions:
+          - condition: trigger
+            id: left
+        sequence: !input action_left
+      - conditions:
+          - condition: trigger
+            id: right_long
+        sequence: !input action_right_long
+      - conditions:
+          - condition: trigger
+            id: left_long
+        sequence: !input action_left_long
