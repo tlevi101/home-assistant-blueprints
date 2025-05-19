@@ -59,106 +59,46 @@ blueprint:
       default: []
       selector:
         action: {}
-mode: restart
+mode: queued
 max_exceeded: silent
+
 trigger:
   - platform: device
     device_id: !input remote
     domain: mqtt
     type: action
-    subtype: "on"
-    id: "on"
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: "off"
-    id: "off"
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: arrow_right_click
-    id: right
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: arrow_left_click
-    id: left
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: brightness_move_up
-    id: on_long
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: brightness_move_down
-    id: off_long
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: arrow_right_hold
-    id: right_long
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: arrow_left_hold
-    id: left_long
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: arrow_right_release
-    id: right_stop
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: arrow_left_release
-    id: left_stop
-  - platform: device
-    device_id: !input remote
-    domain: mqtt
-    type: action
-    subtype: brightness_stop
-    id: stop
+
 action:
   - choose:
       - conditions:
-          - condition: trigger
-            id: "on"
+          - condition: template
+            value_template: "{{ trigger.subtype == 'on' }}"
         sequence: !input action_on
       - conditions:
-          - condition: trigger
-            id: "off"
+          - condition: template
+            value_template: "{{ trigger.subtype == 'off' }}"
         sequence: !input action_off
       - conditions:
-          - condition: trigger
-            id: on_long
+          - condition: template
+            value_template: "{{ trigger.subtype == 'brightness_move_up' }}"
         sequence: !input action_on_long
       - conditions:
-          - condition: trigger
-            id: off_long
+          - condition: template
+            value_template: "{{ trigger.subtype == 'brightness_move_down' }}"
         sequence: !input action_off_long
       - conditions:
-          - condition: trigger
-            id: right
+          - condition: template
+            value_template: "{{ trigger.subtype == 'arrow_right_click' }}"
         sequence: !input action_right
       - conditions:
-          - condition: trigger
-            id: left
-        sequence: !input action_left
-      - conditions:
-          - condition: trigger
-            id: right_long
+          - condition: template
+            value_template: "{{ trigger.subtype == 'arrow_right_hold' }}"
         sequence: !input action_right_long
       - conditions:
-          - condition: trigger
-            id: left_long
+          - condition: template
+            value_template: "{{ trigger.subtype == 'arrow_left_click' }}"
+        sequence: !input action_left
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.subtype == 'arrow_left_hold' }}"
         sequence: !input action_left_long
