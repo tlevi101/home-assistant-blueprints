@@ -59,7 +59,7 @@ blueprint:
       default: []
       selector:
         action: {}
-mode: queue
+mode: queued
 max_exceeded: silent
 trigger:
   - platform: device
