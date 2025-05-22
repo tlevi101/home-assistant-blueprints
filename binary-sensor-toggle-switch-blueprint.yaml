@@ -1,0 +1,42 @@
+blueprint:
+  name: Toggle switch when binary sensor changes
+  description: >
+    Toggle a switch when the selected binary sensor changes state (on <-> off),
+    but only if the new state is different from the previous one. Prevents
+    toggling on reconnects (e.g., after device offline/online events).
+  domain: automation
+  input:
+    trigger_entity:
+      name: Trigger Entity
+      description: The binary sensor that triggers the automation (must support on/off).
+      selector:
+        entity:
+          domain: binary_sensor
+
+    target_entity:
+      name: Target Entity
+      description: The switch (or light) entity to toggle.
+      selector:
+        entity:
+          domain: 
+            - switch
+            - light
+
+trigger:
+  - platform: state
+    entity_id: !input trigger_entity
+
+condition:
+  - condition: template
+    value_template: >
+      {{ trigger.from_state.state != trigger.to_state.state and
+         trigger.from_state.state in ['on', 'off'] and
+         trigger.to_state.state in ['on', 'off'] }}
+
+action:
+  - service: homeassistant.toggle
+    target:
+      entity_id: !input target_entity
+
+mode: queued
+max: 5
